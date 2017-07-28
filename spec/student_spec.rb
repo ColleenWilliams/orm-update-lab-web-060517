@@ -1,3 +1,4 @@
+require 'pry'
 require "spec_helper"
 
 describe "Student" do
@@ -50,6 +51,7 @@ describe "Student" do
 
   describe "#save" do
     it 'saves an instance of the Student class to the database and then sets the given students `id` attribute' do
+
       sarah = Student.new("Sarah", "9th")
       sarah.save
       expect(DB[:conn].execute("SELECT * FROM students")).to eq([[1, "Sarah", "9th"]])
@@ -67,14 +69,15 @@ describe "Student" do
     end
   end
 
-  describe "#create" do
+  describe ".create" do
     it 'creates a student object with name and grade attributes' do
+      # binding.pry
       Student.create("Sally", "10th")
       expect(DB[:conn].execute("SELECT * FROM students")).to eq([[1, "Sally", "10th"]])
     end
   end
 
-  describe '#new_from_db' do
+  describe '.new_from_db' do
     it 'creates an instance with corresponding attribute values' do
       row = [1, "Pat", 12]
       pat = Student.new_from_db(row)
@@ -85,7 +88,7 @@ describe "Student" do
     end
   end
 
-  describe '#find_by_name' do
+  describe '.find_by_name' do
     it 'returns an instance of student that matches the name from the DB' do
       josh.save
       josh_id = josh.id
